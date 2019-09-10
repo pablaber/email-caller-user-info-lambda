@@ -1,0 +1,11 @@
+{
+  "name": "email-caller-user-info-lambda",
+  "version": "1.0.0",
+  "description": "AWS Lambda for saving user info to DynamoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Patrick Bacon-Blaber",
+  "license": "ISC"
+}
