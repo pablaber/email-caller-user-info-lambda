@@ -30,7 +30,7 @@ module.exports.SAMPLE_GET_EVENT = {
     'X-Forwarded-Port': ['443'],
     'X-Forwarded-Proto': ['https']
   },
-  queryStringParameters: { userEmail: 'test-user@email.com' },
+  queryStringParameters: { userEmail: 'test-usser@email.com' },
   multiValueQueryStringParameters: { userEmail: ['test-usser@email.com'] },
   pathParameters: null,
   stageVariables: null,
