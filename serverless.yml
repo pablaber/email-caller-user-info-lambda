@@ -1,0 +1,27 @@
+service: email-caller-user-info
+frameworkVersion: "=1.51.0"
+provider:
+  name: aws
+  deploymentBucket:
+    name: ${file(./serverless-vars.yml):lambdaDeploymentBucket}
+  runtime: nodejs10.x
+  region: ${file(./serverless-vars.yml):userInfoLambdaRegion}
+  memorySize: 128
+  timeout: 10
+  role: ${file(./serverless-vars.yml):userInfoLambdaRole}
+functions:
+  user-info-lambda:
+    handler: index.handler
+    name: email-caller-user-info
+    tags:
+      project: EmailCaller
+    environment:
+      DYNAMODB_REGION: ${file(./serverless-vars.yml):dynamoDbRegion}
+      DYNAMODB_ENDPOINT: ${file(./serverless-vars.yml):dynamoDbEndpoint}
+package:
+  exclude:
+    - .git/**
+    - output/**
+    - tests/**
+    - package.json
+    - README.md

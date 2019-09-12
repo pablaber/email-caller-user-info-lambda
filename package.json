@@ -4,8 +4,18 @@
   "description": "AWS Lambda for saving user info to DynamoDB",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "serverless deploy",
+    "local": "node local/handler-local",
+    "local-debug": "node debug local/handler-local"
   },
   "author": "Patrick Bacon-Blaber",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "email-caller-common-utils": "git+ssh://git@github.com:pablaber/email-caller-common-utils.git#initial-setup",
+    "precond": "^0.2.3"
+  },
+  "devDependencies": {
+    "dotenv": "^8.1.0",
+    "serverless": "^1.51.0"
+  }
 }
