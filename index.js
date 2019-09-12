@@ -7,7 +7,6 @@ const {
   GetAction,
   CreateAction,
   UpdateAction,
-  DeleteAction,
 } = require('./lib/actions');
 
 const { UserInfoDynamoConnector } = emailCallerCommonUtils.connectors;
@@ -47,11 +46,6 @@ module.exports.handler = async (requestEvent) => {
       break;
     case METHODS.PATCH:
       action = new UpdateAction({
-        userInfoDynamoConnector,
-      });
-      break;
-    case METHODS.DELETE:
-      action = new DeleteAction({
         userInfoDynamoConnector,
       });
       break;

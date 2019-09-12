@@ -58,8 +58,3 @@ An AWS lambda for handling all methods made to the /user-info endpoint.
   "version": "v1.0.0"
 }
 ```
-
-### DELETE /user-info?userEmail=${email}
-
-#### Example Response
-**204 No Content**
