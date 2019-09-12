@@ -8,6 +8,9 @@ const {
 } = require('./lib/actions');
 
 const { UserInfoDynamoConnector } = emailCallerCommonUtils.connectors;
+const { LambdaRouterUtils } = emailCallerCommonUtils.lambdaRouters;
+const { NotFoundError } = emailCallerCommonUtils.lambdaRouters.errors;
+const Logger = emailCallerCommonUtils.Logger
 
 const HTTP_METHODS = {
   GET: 'GET',
@@ -19,9 +22,15 @@ const HTTP_METHODS = {
 module.exports.handler = async (requestEvent) => {
   console.log(requestEvent);
 
+  const logger = new Logger()
+
   const userInfoDynamoConnector = new UserInfoDynamoConnector({
     awsDynamoRegion: config.dynamodb.region,
     awsDynamoEndpoint: config.dynamodb.endpoint,
+  });
+
+  const utils = new LambdaRouterUtils({
+    logger,
   });
 
   const { httpMethod, path } = requestEvent;
@@ -34,16 +43,13 @@ module.exports.handler = async (requestEvent) => {
       });
       break;
     default:
-      return {
-        statusCode: 404,
-        body: JSON.stringify({
-          error: {
-            name: 'UnsuppportedMethod',
-            message: `Cannot ${httpMethod} ${path}`,
-          }
-        })
-      }
+      return utils.throwLambdaError(new NotFoundError(`Cannot ${httpMethod} ${path}`))
   }
 
-  return action.process(requestEvent);
+  try {
+    const res = await action.process(requestEvent);
+    return res;
+  } catch (err) {
+    return utils.throwLambdaError(err);
+  }
 };
