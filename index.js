@@ -4,25 +4,23 @@ const emailCallerCommonUtils = require('email-caller-common-utils');
 
 const config = require('./lib/config').newInstance();
 const {
-  GetAction
+  GetAction,
+  CreateAction,
+  UpdateAction,
+  DeleteAction,
 } = require('./lib/actions');
 
 const { UserInfoDynamoConnector } = emailCallerCommonUtils.connectors;
 const { LambdaRouterUtils } = emailCallerCommonUtils.lambdaRouters;
 const { NotFoundError } = emailCallerCommonUtils.lambdaRouters.errors;
-const Logger = emailCallerCommonUtils.Logger
+const { constants, Logger } = emailCallerCommonUtils;
 
-const HTTP_METHODS = {
-  GET: 'GET',
-  POST: 'POST',
-  PATCH: 'PATCH',
-  DELETE: 'DELETE',
-}
+const { METHODS } = constants.HTTP;
 
 module.exports.handler = async (requestEvent) => {
-  console.log(requestEvent);
+  const logger = new Logger();
 
-  const logger = new Logger()
+  logger.debug(requestEvent);
 
   const userInfoDynamoConnector = new UserInfoDynamoConnector({
     awsDynamoRegion: config.dynamodb.region,
@@ -37,8 +35,23 @@ module.exports.handler = async (requestEvent) => {
 
   let action;
   switch (httpMethod) {
-    case HTTP_METHODS.GET:
+    case METHODS.GET:
       action = new GetAction({
+        userInfoDynamoConnector,
+      });
+      break;
+    case METHODS.POST:
+      action = new CreateAction({
+        userInfoDynamoConnector,
+      });
+      break;
+    case METHODS.PATCH:
+      action = new UpdateAction({
+        userInfoDynamoConnector,
+      });
+      break;
+    case METHODS.DELETE:
+      action = new DeleteAction({
         userInfoDynamoConnector,
       });
       break;
