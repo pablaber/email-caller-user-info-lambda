@@ -11,6 +11,7 @@
   "author": "Patrick Bacon-Blaber",
   "license": "ISC",
   "dependencies": {
+    "ajv": "^6.10.2",
     "email-caller-common-utils": "git+ssh://git@github.com:pablaber/email-caller-common-utils.git#initial-setup",
     "precond": "^0.2.3"
   },

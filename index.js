@@ -18,7 +18,7 @@ const { constants, Logger } = emailCallerCommonUtils;
 const { METHODS } = constants.HTTP;
 
 module.exports.handler = async (requestEvent) => {
-  const logger = new Logger();
+  const logger = new Logger(true);
 
   logger.debug(requestEvent);
 
